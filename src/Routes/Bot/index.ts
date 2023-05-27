@@ -1,13 +1,12 @@
 import { Router } from 'express';
 
-import { Sender } from '@modules/Sender';
+import { Sender } from '@config/Sender';
 
-const sender = new Sender();
+const sender = new Sender('ws-sender-dev');
 
-const routerIndex = Router();
-const routerTeste = Router();
+const routerBotWhats = Router();
 
-routerTeste.get('/status', (req, res) => {
+routerBotWhats.get('/status', (req, res) => {
   const qr = sender.qrCode;
   const connected = sender.isConnected;
 
@@ -17,7 +16,7 @@ routerTeste.get('/status', (req, res) => {
   });
 });
 
-routerTeste.post('/send', async (req, res) => {
+routerBotWhats.post('/send', async (req, res) => {
   const { number, message } = req.body;
 
   try {
@@ -29,6 +28,4 @@ routerTeste.post('/send', async (req, res) => {
   }
 });
 
-routerIndex.use(routerTeste);
-
-export { routerIndex };
+export { routerBotWhats };

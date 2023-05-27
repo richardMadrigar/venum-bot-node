@@ -20,11 +20,13 @@ export class Sender {
     return this.qr;
   }
 
-  constructor() {
-    this.initialize();
+  constructor(value: string) {
+    this.initialize(value);
   }
 
   async sendText(to: string, body: string) {
+    if (!this.isConnected) throw new AppError('Não tem um número conectado !');
+
     if (!isValidPhoneNumber(to, 'BR')) throw new AppError('Numero com formato invalido');
 
     const phoneNumberFormat = parsePhoneNumber(to, 'BR')?.format('E.164').replace('+', '');
@@ -34,7 +36,7 @@ export class Sender {
     this.client.sendText(phoneNumber, body);
   }
 
-  private initialize() {
+  private initialize(value: string) {
     const qr = (base64Qr: string, asciiQR: string, attempts?: number) => {
       this.qr = { base64Qr, attempts };
     };
@@ -51,7 +53,7 @@ export class Sender {
       });
     };
 
-    create('ws-sender-dev', qr, status)
+    create(value, qr, status)
       .then((client) => start(client))
       .catch((err) => {
         throw new AppError(err);
