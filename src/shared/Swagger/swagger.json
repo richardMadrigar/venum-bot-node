@@ -1,0 +1,286 @@
+{
+  "openapi": "1.0.0",
+  "info": {
+    "title": "API RM ODONTO",
+    "description": "Está api tem objetivo de informar como utilizar este servidor.",
+    "version": "1.0.0",
+    "contact": {
+      "email": "richard_madrigar99@hotmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001",
+      "description": "API local"
+    },
+    {
+      "url": "https://....",
+      "description": "API - API- DEV"
+    }
+  ],
+  "paths": {
+    "/releasesCategories/create": {
+      "post": {
+        "summary": "Cria categoria para lançamentos",
+        "tags": ["ReleasesCategories"],
+        "security": [{ "bearerAuth": [] }],
+
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsertReleasesCategories"
+              },
+              "examples": {
+                "Criar uma categoria para lançamentos": {
+                  "value": {
+                    "title": "Aluguel"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "201": {
+            "description": "Categoria criada !"
+          },
+          "400": {
+            "description": "Categoria com este nome já existe !"
+          }
+        }
+      }
+    },
+    "/releasesCategories": {
+      "get": {
+        "summary": "Pegar lista de categorias de lançamentos",
+        "tags": ["ReleasesCategories"],
+        "security": [{ "bearerAuth": [] }],
+
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "example": "1",
+            "description": "Número da pagina"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "example": "8",
+            "description": "Quatidade de itens"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "example": "DESC",
+            "description": "Ordem de página - 'DESC' | 'ASC' "
+          },
+          {
+            "name": "orderColumn",
+            "in": "query",
+            "example": "",
+            "description": "Escolher por qual coluna ordenar - 'title' "
+          },
+          {
+            "name": "filterColumn",
+            "in": "query",
+            "example": "",
+            "description": "Pesquisar por uma coluna em especifico - 'title' "
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "example": "",
+            "description": "palavra a pequisar da coluna escolhida"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/GetReleasesCategories"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/releasesCategories/{id}": {
+      "get": {
+        "summary": "Pegar uma categoria por id",
+        "tags": ["ReleasesCategories"],
+        "security": [{ "bearerAuth": [] }],
+
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/GetReleasesCategories"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Categoria não existe !"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deleta uma categoria de lançamentos",
+        "tags": ["ReleasesCategories"],
+        "security": [{ "bearerAuth": [] }],
+
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categoria deletada com sucesso !"
+          },
+          "400": {
+            "description": "Categoria não existe !"
+          }
+        }
+      },
+      "put": {
+        "summary": "Editar categoria de lançamentos",
+        "tags": ["ReleasesCategories"],
+        "security": [{ "bearerAuth": [] }],
+
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "example": "1123123-sardasd1-212312-123123",
+            "description": "id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientUpdateAnnotations"
+              },
+              "examples": {
+                "Editar categoria de um lançamento": {
+                  "value": {
+                    "title": "novo title"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Categoria editada com sucesso !"
+          },
+          "400": {
+            "description": "Categoria não existe  ! | Categoria com este nome já existe !"
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "InsertReleasesCategories": {
+        "type": "object",
+
+        "required": ["title"],
+
+        "properties": {
+          "title": {
+            "type": "string"
+          }
+        }
+      },
+
+      "InsertRealesesCreate": {
+        "type": "object",
+
+        "required": [
+          "description",
+          "id_categories",
+          "value",
+          "expiration_date",
+          "it_paid",
+          "type_transaction"
+        ],
+
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "id_categories": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          },
+          "expiration_date": {
+            "type": "string"
+          },
+          "type_transaction": {
+            "type": "string",
+            "enum": ["debit", "credit"]
+          },
+          "it_paid": {
+            "type": "boolean"
+          },
+          "payment_date": {
+            "type": "string"
+          },
+          "payment_method": {
+            "type": "string"
+          }
+        }
+      },
+      "GetReleasesCategories": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      }
+    },
+
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

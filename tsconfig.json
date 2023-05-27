@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "ES2021", 
+    "module": "commonjs", 
+    "baseUrl": "./src", 
+    "rootDir": "./",
+    "outDir": "./dist", 
+    "paths": {
+      "@config/*": [
+        "./config/*"
+      ],
+      "@modules/*": [
+        "./modules/*"
+      ],
+      "@middlewares/*": [
+        "./middlewares/*"
+      ],
+      "@features/*": [
+        "./features/*"
+      ],
+      "@Util/*": [
+        "./Util/*"
+      ],
+      "@shared/*": [
+        "./shared/*"
+      ],
+      "@Models/*": [
+        "./Models/*"
+      ],
+    }, 
+    "forceConsistentCasingInFileNames": true, 
+    "resolveJsonModule": true,
+    "esModuleInterop": true, 
+    "skipLibCheck": true, 
+    "strict": true, 
+  },
+  "exclude": [
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
+  ]
+}
