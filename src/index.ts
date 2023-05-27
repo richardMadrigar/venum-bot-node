@@ -2,7 +2,7 @@ import 'dotenv/config';
 
 import { app } from './app';
 import { logger } from './shared/Util/configLogger';
-import { env } from './shared/Util/variaveisAmbiente/VariaveisAmbiente';
+import { env } from './shared/Util/variaveisAmbiente/env';
 
 const { PORT } = env;
 

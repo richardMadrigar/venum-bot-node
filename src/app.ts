@@ -8,7 +8,7 @@ import swaggerUi from 'swagger-ui-express';
 
 import { AppError } from '@shared/Util/AppError/AppError';
 import { logger } from '@shared/Util/configLogger';
-import { env } from '@shared/Util/variaveisAmbiente/VariaveisAmbiente';
+import { env } from '@shared/Util/variaveisAmbiente/env';
 
 import { routerIndex } from './Routes';
 import swaggerDocument from './shared/Swagger/swagger.json';

@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 import 'dotenv/config';
 import { AppError } from '@shared/Util/AppError/AppError';
-import { env } from '@shared/Util/variaveisAmbiente/VariaveisAmbiente';
+import { env } from '@shared/Util/variaveisAmbiente/env';
 
 interface ITokenInterface {
   email: string;

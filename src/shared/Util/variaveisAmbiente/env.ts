@@ -14,6 +14,7 @@ const envSchema = z
   .object({
     PORT: z.string().default('3001'),
     NODE_ENV: z.enum(['DEV', 'PRODUCTION', 'test']).default('PRODUCTION'),
+    SECRET_TOKEN: z.string(),
 
   });
 

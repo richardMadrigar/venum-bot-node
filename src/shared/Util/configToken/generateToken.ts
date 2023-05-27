@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken';
 
 import 'dotenv/config';
-import { env } from '../variaveisAmbiente/VariaveisAmbiente';
+import { env } from '../variaveisAmbiente/env';
 
-export type IgenerateToken = {
+export type IGenerateToken = {
   id: string
   email: string
   roles?: string
@@ -13,7 +13,7 @@ export type IgenerateToken = {
 }
 export const generateToken = ({
   email, roles, id_tenant, tenant_token, nome_empresa_token, id,
-}: IgenerateToken) => jwt.sign(
+}: IGenerateToken) => jwt.sign(
   {
     email, roles, id_tenant, tenant_token: tenant_token.trim(), nome_empresa_token, id,
   },

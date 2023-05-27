@@ -9,9 +9,9 @@ export type QRCode = {
 };
 
 export class Sender {
-  private client: Whatsapp;
-  private connected: boolean;
-  private qr: QRCode;
+  private client!: Whatsapp;
+  private connected!: boolean;
+  private qr!: QRCode;
 
   get isConnected(): boolean {
     return this.connected;
@@ -53,6 +53,8 @@ export class Sender {
 
     create('ws-sender-dev', qr, status)
       .then((client) => start(client))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        throw new AppError(err);
+      });
   }
 }
