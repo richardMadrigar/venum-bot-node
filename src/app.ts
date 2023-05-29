@@ -3,6 +3,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
 import cors from 'cors';
 import morgan from 'morgan';
+import { routerIndex } from 'Routes';
 import swaggerUi from 'swagger-ui-express';
 
 import { AppError } from '@shared/Util/AppError/AppError';
@@ -21,6 +22,8 @@ app.use(morgan('dev'));
 app.use(cors());
 
 app.use(routerBotWhats);
+
+app.use(routerIndex);
 
 if (env.NODE_ENV === 'PRODUCTION') {
   process.on('uncaughtException', (error) => logger.error(error));

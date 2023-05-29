@@ -46,10 +46,11 @@ routerBotWhats.post('/teste1', async (req, res) => {
 });
 
 routerBotWhats.post('/teste', async (req, res) => {
-  // const { number, message } = req.body;
+  const { sessionClient } = req.body;
   try {
     const resultClients = await handleReturnBucketClients();
-    if (resultClients.some((item) => item.client.session === 'ws-sender-dev-2')) {
+
+    if (resultClients.some((item) => item.client.session === sessionClient)) {
       await resultClients[0].client.sendText('5511985737008@c.us', 'aaa');
     } else {
       throw new AppError('Cliente não conectado ');

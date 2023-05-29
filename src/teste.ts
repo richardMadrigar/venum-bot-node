@@ -1,8 +1,7 @@
 import { IBucketSender, handleBucketClientesSender, handleReturnBucketClients } from '@config/BucketClients';
-import { Pool, QueryResult } from 'pg';
+import { RepositoryClientsPrisma } from 'repositories/Prisma/ClientsRepository';
 import { create, Whatsapp } from 'venom-bot';
 
-import { AppError } from '@shared/Util/AppError/AppError';
 import { logger } from '@shared/Util/configLogger';
 
 interface IClientConfig {
@@ -10,33 +9,6 @@ interface IClientConfig {
   numero: string;
   empresa: string;
 }
-
-const pgConfig = {
-  user: 'postgres',
-  password: 'teste123',
-  host: 'localhost',
-  port: 5432,
-  database: 'ODONTO',
-};
-
-const loadClientConfig = async (): Promise<IClientConfig[]> => {
-  const pool = new Pool(pgConfig);
-
-  // const id = 2;
-  // try {
-  //   const query = `SELECT * FROM what where client_id = '${id}'`;
-
-  try {
-    const query = 'SELECT * FROM what';
-    const result: QueryResult<IClientConfig> = await pool.query(query);
-
-    return result.rows;
-  } catch (error) {
-    throw new AppError(`Erro ao carregar as informações do cliente: ${error}`);
-  } finally {
-    pool.end();
-  }
-};
 
 // function onStateChange(state: string, number: string) {
 //   logger.info(`Estado da conexão do bot alterado para o número ${number}:`, state);
@@ -69,19 +41,22 @@ const createClients = async (
 
   return clients[0];
 };
-// if no array que eu tenho já estiver o valor da empresa então n fazer nada
+
 export const handle = async () => {
-  const result = await loadClientConfig();
+  const repository = new RepositoryClientsPrisma();
+
+  const result = await repository.getManyClients();
+
   const arr: IBucketSender[] = [];
   const resultBucketClients = await handleReturnBucketClients();
 
   // eslint-disable-next-line no-restricted-syntax
   for (const item of result) {
-    if (!resultBucketClients.some((clients) => clients.client.session === item.empresa)) {
+    if (!resultBucketClients.some((clients) => clients.client.session === item.sessionClient)) {
       // eslint-disable-next-line no-await-in-loop
       const resultClient = await createClients({
-        numero: item.numero,
-        empresa: item.empresa,
+        numero: item.telephone,
+        empresa: item.sessionClient,
         clientId: '121',
       });
       arr.push(resultClient);
