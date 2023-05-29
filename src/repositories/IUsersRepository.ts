@@ -9,6 +9,7 @@ export namespace ICreateClientRepoDTO {
     isActive: boolean;
     obs: string;
   };
+
   export type Result = {
     id: string;
   };
@@ -17,6 +18,16 @@ export namespace ICreateClientRepoDTO {
 export namespace IFindExistsBySessionClientDTO {
   export type Params = {
     sessionClient: string;
+  };
+
+  export type Result = {
+    isExists: boolean;
+  };
+}
+
+export namespace IFindExistsByTelephoneDTO {
+  export type Params = {
+    telephone: string;
   };
 
   export type Result = {
@@ -36,6 +47,10 @@ export abstract class IClientsRepository {
   abstract FindExistsBySessionClient(
     data: IFindExistsBySessionClientDTO.Params
   ): Promise<IFindExistsBySessionClientDTO.Result>;
+
+  abstract FindExistsByTelephone(
+    data: IFindExistsByTelephoneDTO.Params
+  ): Promise<IFindExistsByTelephoneDTO.Result>;
 
   abstract getManyClients(): Promise<Clients[]>;
   // abstract getAll(data?: IGetAccountsDTO): Promise<Users[]>;

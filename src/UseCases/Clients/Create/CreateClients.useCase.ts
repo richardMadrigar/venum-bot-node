@@ -22,6 +22,11 @@ export class CreateClientsUseCase {
     } = await this.repositoryClients.FindExistsBySessionClient({ sessionClient });
     if (isExistSessionClient) throw new AppError('Escolher outro nome para a sessão do whats !');
 
+    const {
+      isExists: isExistTelephone,
+    } = await this.repositoryClients.FindExistsByTelephone({ telephone });
+    if (isExistTelephone) throw new AppError('Escolher outro numero de telefone, este telefone já esta conectado !');
+
     const resultCreate = await this.repositoryClients.Create({
       client, isActive, limitSend, obs, sessionClient, telephone,
     });
